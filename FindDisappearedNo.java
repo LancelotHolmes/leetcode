@@ -5,29 +5,31 @@ import java.util.Collections;
 import java.util.List;
 
 public class FindDisappearedNo {
-	public static void main(String[] args) {
-//		int[] nums=new int[0];
-		int[] nums={4,3,2,7,8,2,3,1};
-		List<Integer> test=findDisappearedNumbers(nums);
-		
-		System.out.println(test);
-//		System.out.println();
-	}
-	
-	public static List<Integer> findDisappearedNumbers(int[] nums) {
-		int n=nums.length;
+    public static void main(String[] args) {
+//      int[] nums=new int[0];
+        int[] nums={4,3,2,7,8,2,3,1};
+        List<Integer> test=findDisappearedNumbers(nums);    
+        System.out.println(test.toString());
+    }
+    
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        int n=nums.length;
         List<Integer> numsList=new ArrayList<>(n);
-        //add all elements of 1~n        
-        for(int i=1;i<=n;i++){
-        	numsList.add(i);
-        }
-        //traverse the array and remove elements appeared in List
+
+        //traverse the array and map the element(since it's within 1~n) to index(0~n-1) 
+        //and mark the element of index negative the first time the element visit
         for(int i=0;i<nums.length;i++){
-        	if(numsList.contains(nums[i])){
-        		//to distinguish with remove(index)
-        		numsList.remove(new Integer(nums[i]));        		        		
-        	}
+            int val=Math.abs(nums[i])-1;
+            if(nums[val]>0){
+                nums[val]=-nums[val];
+            }
         }
+        //the index of positive means the according element never appears
+        for(int i=0;i<n;i++){
+            if(nums[i]>0){
+                numsList.add(i+1);
+            }
+        }        
         return numsList;
     }
 
